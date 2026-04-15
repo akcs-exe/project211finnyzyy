@@ -1,0 +1,41 @@
+{
+  "name": "~finyzyy",
+  "version": "1.0.0",
+  "description": "My Discord bot built with DiscoBase",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "generate": "node node_modules/discobase-core/cli.js",
+    "manage": "node node_modules/discobase-core/manage.js"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.2.0",
+    "axios": "^1.15.0",
+    "boxen": "^8.0.1",
+    "chalk": "^4.1.2",
+    "chokidar": "^5.0.0",
+    "cli-progress": "^3.12.0",
+    "cors": "^2.8.6",
+    "discobase-core": "^1.0.3",
+    "discord.js": "^14.26.3",
+    "express": "^5.2.1",
+    "figlet": "^1.11.0",
+    "fs-extra": "^11.3.4",
+    "gradient-string": "^3.0.0",
+    "micromatch": "^4.0.8",
+    "mongoose": "^9.4.1",
+    "multer": "^2.1.1",
+    "rss-parser": "^3.13.0",
+    "set-interval-async": "^3.0.3"
+  }
+}
