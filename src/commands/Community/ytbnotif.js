@@ -245,8 +245,10 @@ async function handleSetup(interaction, client) {
                     liveMessage = liveModalSubmit.fields.getTextInputValue('live_message').trim();
                     await liveModalSubmit.deferUpdate();
                 } catch {
+                   
                 }
             } else {
+               
                 await liveBtnInteraction.deferUpdate();
             }
         } catch {
@@ -286,7 +288,7 @@ async function handleSetup(interaction, client) {
     } catch {
         return modalInteraction.editReply({ embeds: [cancelEmbed()], components: [] });
     }
-    
+
     const step4Embed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('YouTube Notifs — Étape 4/4')
@@ -372,7 +374,6 @@ async function handleSetup(interaction, client) {
             ? `<@&${mentionId}>`
             : 'Aucune';
 
-    // Tronquer les messages si trop longs pour le field (max ~1000 chars)
     const msgPreview   = notifMessage.length > 200 ? notifMessage.slice(0, 197) + '...' : notifMessage;
     const liveMsgPreview = liveMessage.length > 200 ? liveMessage.slice(0, 197) + '...' : liveMessage;
 
@@ -441,7 +442,6 @@ async function handleList(interaction, client) {
             `**Dernière vidéo:** ${lastVid}`,
         ];
 
-        // N'ajouter le live que si pertinent
         if (cfg.notifType === 'live' || cfg.notifType === 'both') {
             lines.push(`**Dernier live:** ${lastLive}`);
         }
@@ -581,5 +581,3 @@ function cancelEmbed() {
         .setTitle('↩️ Action annulée')
         .setDescription('La configuration a été annulée.');
 }
-
-// module grave chiant a code
