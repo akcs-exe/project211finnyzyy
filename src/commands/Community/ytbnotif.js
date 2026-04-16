@@ -19,7 +19,6 @@ const { resolveYoutubeChannel } = require('../../functions/youtubeUtils');
 
 const COLLECTOR_TIMEOUT = 5 * 60 * 1000;
 
-// Labels des types (courts pour les menus/embeds)
 const TYPE_LABELS = {
     video: '🎬 Vidéos uniquement',
     live:  '🔴 Lives uniquement',
@@ -62,9 +61,6 @@ module.exports = {
     }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SETUP : étape 1 — Modal (URL + message vidéo)
-// ─────────────────────────────────────────────────────────────────────────────
 async function handleSetup(interaction, client) {
     const count = await YoutubeNotif.countDocuments({ guildId: interaction.guildId });
     if (count >= 10) {
@@ -74,7 +70,6 @@ async function handleSetup(interaction, client) {
         });
     }
 
-    // ── Étape 1 : Modal URL + message vidéo ──────────────────────────────────
     const modal = new ModalBuilder()
         .setCustomId('ytbnotif_url_modal')
         .setTitle('YouTube Notifs — Étape 1/4');
@@ -117,7 +112,6 @@ async function handleSetup(interaction, client) {
     const rawUrl      = modalInteraction.fields.getTextInputValue('youtube_url').trim();
     const notifMessage = modalInteraction.fields.getTextInputValue('notif_message').trim();
 
-    // Résoudre la chaîne YouTube
     let channelInfo;
     try {
         channelInfo = await resolveYoutubeChannel(rawUrl);
@@ -127,7 +121,6 @@ async function handleSetup(interaction, client) {
         });
     }
 
-    // Vérifier doublon
     const existing = await YoutubeNotif.findOne({
         guildId: interaction.guildId,
         youtubeChannelId: channelInfo.channelId
@@ -138,7 +131,6 @@ async function handleSetup(interaction, client) {
         });
     }
 
-    // ── Étape 1.5 : Sélection du type (vidéo / live / les deux) ──────────────
     const typeEmbed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('YouTube Notifs — Étape 2/4')
@@ -185,7 +177,6 @@ async function handleSetup(interaction, client) {
         return modalInteraction.editReply({ embeds: [cancelEmbed()], components: [] });
     }
 
-    // ── Étape 2.5 : Message live (si type 'live' ou 'both') ──────────────────
     let liveMessage = '🔴 **{channelName}** est en LIVE !\n\n**{videoTitle}**\n🎙️ {videoUrl}';
 
     if (notifType === 'live' || notifType === 'both') {
@@ -230,7 +221,6 @@ async function handleSetup(interaction, client) {
             }
 
             if (liveBtnInteraction.customId === 'ytbnotif_open_live_modal') {
-                // Ouvrir un modal pour le message live
                 const liveModal = new ModalBuilder()
                     .setCustomId('ytbnotif_live_msg_modal')
                     .setTitle('Message pour les Lives');
@@ -255,10 +245,8 @@ async function handleSetup(interaction, client) {
                     liveMessage = liveModalSubmit.fields.getTextInputValue('live_message').trim();
                     await liveModalSubmit.deferUpdate();
                 } catch {
-                    // Timeout modal live → on garde le défaut
                 }
             } else {
-                // Skip
                 await liveBtnInteraction.deferUpdate();
             }
         } catch {
@@ -266,7 +254,6 @@ async function handleSetup(interaction, client) {
         }
     }
 
-    // ── Étape 3 : Salon Discord ───────────────────────────────────────────────
     const step3Embed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('YouTube Notifs — Étape 3/4')
@@ -299,8 +286,7 @@ async function handleSetup(interaction, client) {
     } catch {
         return modalInteraction.editReply({ embeds: [cancelEmbed()], components: [] });
     }
-
-    // ── Étape 4 : Mention ─────────────────────────────────────────────────────
+    
     const step4Embed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('YouTube Notifs — Étape 4/4')
@@ -355,7 +341,6 @@ async function handleSetup(interaction, client) {
         return modalInteraction.editReply({ embeds: [cancelEmbed()], components: [] });
     }
 
-    // ── Sauvegarde ────────────────────────────────────────────────────────────
     try {
         await YoutubeNotif.create({
             guildId: interaction.guildId,
@@ -380,7 +365,6 @@ async function handleSetup(interaction, client) {
         });
     }
 
-    // ── Récap final ───────────────────────────────────────────────────────────
     const discordChan = await interaction.guild.channels.fetch(discordChannelId).catch(() => null);
     const mentionDisplay = mentionId === 'everyone'
         ? '@everyone'
@@ -415,9 +399,6 @@ async function handleSetup(interaction, client) {
     await modalInteraction.editReply({ embeds: [successEmbedResult], components: [] });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LIST
-// ─────────────────────────────────────────────────────────────────────────────
 async function handleList(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
 
@@ -452,7 +433,6 @@ async function handleList(interaction, client) {
         const lastVid  = cfg.lastVideoId ? `[Voir](https://youtu.be/${cfg.lastVideoId})` : '—';
         const lastLive = cfg.lastLiveId  ? `[Voir](https://youtu.be/${cfg.lastLiveId})` : '—';
 
-        // Construire la valeur du field sans dépasser 1024 chars
         const lines = [
             `**Salon:** <#${cfg.channelId}>`,
             `**Type:** ${TYPE_SHORT[cfg.notifType] || cfg.notifType}`,
@@ -478,9 +458,6 @@ async function handleList(interaction, client) {
     await interaction.editReply({ embeds: [embed] });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// REMOVE
-// ─────────────────────────────────────────────────────────────────────────────
 async function handleRemove(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
 
@@ -492,7 +469,6 @@ async function handleRemove(interaction, client) {
         });
     }
 
-    // Les descriptions de menu sont limitées à 100 chars
     const options = configs.map(cfg => ({
         label: cfg.youtubeChannelName.slice(0, 25),
         description: `${TYPE_SHORT[cfg.notifType] || 'Notifs'} · #${cfg.channelId}`.slice(0, 100),
@@ -592,9 +568,6 @@ async function handleRemove(interaction, client) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
 function errorEmbed(title, description) {
     return new EmbedBuilder()
         .setColor(0xED4245)
@@ -608,3 +581,5 @@ function cancelEmbed() {
         .setTitle('↩️ Action annulée')
         .setDescription('La configuration a été annulée.');
 }
+
+// module grave chiant a code
