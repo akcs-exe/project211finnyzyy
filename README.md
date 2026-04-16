@@ -2,7 +2,7 @@
 
 # 🤖 Finyzyy Bot
 
-**Bot Discord complet — Système de niveaux avancé & Notifications YouTube**
+**Bot Discord complet — Niveaux avancés · Notifications YouTube · Système de Tickets V1**
 
 [![Discord.js](https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
@@ -20,6 +20,7 @@
 - [Commandes](#-commandes)
 - [Système de niveaux](#-système-de-niveaux)
 - [Système YouTube](#-système-youtube)
+- [Système de Tickets V1](#-système-de-tickets-v1)
 - [Structure du projet](#-structure-du-projet)
 
 ---
@@ -33,7 +34,6 @@
 - **Couleur de carte dynamique selon le rôle** : la carte prend la couleur du rôle reward atteint
 - Label personnalisé par rôle (affiché sur la carte)
 - Récompenses de rôles automatiques au passage de niveau
-- Système de give level avec recalcul XP automatique
 - Classement `/rank` et leaderboard
 - Panel admin `/levelsetup` complet et interactif
 
@@ -44,6 +44,18 @@
 - Mention de rôle ou @everyone configurable
 - Message personnalisable avec variables
 - Vérification toutes les 5 minutes via flux RSS (sans clé API)
+
+### 🎫 Système de Tickets V1
+- **Panels multi-boutons** : jusqu'à 25 panels différents par serveur
+- **5 panels prédéfinis** : Support, Recrutement, Signalement, Partenariat, Commande
+- **Formulaires modals** : chaque panel peut avoir jusqu'à 5 champs de questions
+- **Claim system** : les staffs peuvent s'assigner un ticket
+- **Transcripts automatiques** : fichier .txt généré à la fermeture
+- **Système de notation** : les utilisateurs notent leur expérience en DM (⭐ 1-5)
+- **DM de fermeture** : notification automatique en DM à l'utilisateur
+- **Logs complets** : chaque action loguée dans un salon dédié
+- **Ajout de membres** : le staff peut ajouter des membres manuellement
+- **Panel admin `/ticketsetup`** : configuration complète en interface interactive
 
 ### 🔧 Général
 - Framework **DiscoBase** (auto-chargement commandes/events)
@@ -72,7 +84,7 @@ npm install
 # 3. Installer le renderer de cartes
 npm install @napi-rs/canvas
 
-# 4. Configurer le bot (voir section Configuration)
+# 4. Configurer le bot
 nano config.json
 
 # 5. Lancer le bot
@@ -85,8 +97,6 @@ npm run dev
 ---
 
 ## ⚙️ Configuration
-
-Modifiez le fichier `config.json` à la racine :
 
 ```json
 {
@@ -125,8 +135,8 @@ Modifiez le fichier `config.json` à la racine :
 
 | Commande | Description | Permission |
 |----------|-------------|------------|
-| `/rank [@user]` | Affiche la carte de rang (la tienne ou d'un membre) | Tous |
-| `/levelsetup` | Ouvre le panel de configuration des niveaux | `Gérer le serveur` |
+| `/rank [@user]` | Affiche la carte de rang | Tous |
+| `/levelsetup` | Panel de configuration des niveaux | `Gérer le serveur` |
 
 ### 📺 YouTube
 
@@ -135,6 +145,12 @@ Modifiez le fichier `config.json` à la racine :
 | `/ytbnotif setup` | Configurer une nouvelle notification | `Gérer le serveur` |
 | `/ytbnotif list` | Voir toutes les chaînes surveillées | `Gérer le serveur` |
 | `/ytbnotif remove` | Supprimer une notification | `Gérer le serveur` |
+
+### 🎫 Tickets
+
+| Commande | Description | Permission |
+|----------|-------------|------------|
+| `/ticketsetup` | Ouvre le panel de configuration tickets | `Gérer le serveur` |
 
 ### 🔧 Général
 
@@ -147,63 +163,28 @@ Modifiez le fichier `config.json` à la racine :
 
 ## 🎮 Système de niveaux
 
-### Fonctionnement de l'XP
-
-Chaque message envoyé (hors cooldown) rapporte de l'XP :
+### Formule XP
 ```
 XP gagné = xpPerMessage ± variance (aléatoire)
+XP requis niveau N = 5 × N² + 50 × N + 100
 ```
 
-La formule de passage de niveau :
-```
-XP requis pour le niveau N = 5 × N² + 50 × N + 100
-```
-
-Exemples :
 | Niveau | XP requis pour passer |
 |--------|----------------------|
-| 0 → 1  | 100 XP               |
-| 9 → 10 | 1 040 XP             |
-| 24 → 25| 3 600 XP             |
-| 49 → 50| 13 100 XP            |
-| 99 → 100| 50 100 XP           |
+| 0 → 1  | 100 XP |
+| 9 → 10 | 1 040 XP |
+| 24 → 25 | 3 600 XP |
+| 49 → 50 | 13 100 XP |
+| 99 → 100 | 50 100 XP |
 
-### Panel `/levelsetup`
+### Panel `/levelsetup` — ce qu'on peut configurer
 
-Le panel interactif permet de configurer :
+- **⚡ Système XP** : XP/message, variance, cooldown
+- **🎉 Level-Up** : activer/désactiver, salon dédié, message custom (`{user}`, `{level}`)
+- **🎭 Récompenses rôles** : niveau requis, rôle attribué, couleur hex, label carte
+- **🚫 Ignorer** : salons ou rôles exclus du gain XP
 
-**⚙️ Paramètres XP**
-- XP par message (défaut : 15)
-- Variance aléatoire ±(défaut : 5)
-- Cooldown entre gains (défaut : 60s)
-
-**🎉 Message de Level-Up**
-- Activer/désactiver les notifications
-- Choisir un salon dédié (ou même salon)
-- Personnaliser le message (`{user}`, `{level}`)
-
-**🎭 Récompenses de rôles**
-- Ajouter un rôle reward à un niveau précis
-- Définir une **couleur hex** custom pour la carte à ce niveau
-- Définir un **label** custom (ex: "ÉLITE DRAGON") affiché sur la carte
-- Option : retirer le rôle aux niveaux supérieurs
-
-**🎨 Style des cartes**
-- **Couleur auto depuis le rôle** (activé par défaut) : la carte prend la couleur du rôle reward le plus haut atteint par le membre
-- Couleur accent fixe globale (override)
-- Image de fond custom (URL)
-- Réinitialisation du style
-
-**🎁 Give Level** — Donner des niveaux à un membre
-- Sélection par menu utilisateur
-- Recalcul automatique de l'XP correspondant
-- Attribution automatique des rôles rewards si applicable
-
-**🚫 Ignorer** — Salons et rôles exclus du gain XP
-
-### Thèmes de carte
-
-Les 18 thèmes s'appliquent automatiquement selon le niveau, **sauf si un rôle reward avec couleur est actif** :
+### Thèmes de carte (18 paliers)
 
 | Niveaux | Thème | Style |
 |---------|-------|-------|
@@ -232,20 +213,7 @@ Les 18 thèmes s'appliquent automatiquement selon le niveau, **sauf si un rôle 
 ## 📡 Système YouTube
 
 ### Fonctionnement
-
-Le bot surveille les flux RSS YouTube toutes les **5 minutes** et distingue automatiquement :
-- 🎬 **Nouvelles vidéos** : publiées sur la chaîne
-- 🔴 **Lives** : détection en temps réel quand la chaîne passe en direct
-
-### Setup `/ytbnotif setup`
-
-Configuration en 4 étapes guidées :
-
-1. **URL de la chaîne** + message pour les vidéos normales
-2. **Type de notification** : Vidéos / Lives / Les deux
-3. **Message live** (si applicable) — personnalisable séparément
-4. **Salon Discord** où envoyer les notifications
-5. **Mention** : rôle, @everyone, ou aucune
+Vérification toutes les **5 minutes** via RSS public (sans clé API).
 
 ### Variables de message
 
@@ -256,12 +224,132 @@ Configuration en 4 étapes guidées :
 | `{videoUrl}` | Lien vers la vidéo |
 
 ### Formats d'URL supportés
-
 ```
 https://youtube.com/@NomDeLaChaine
 https://youtube.com/channel/UCxxxxxxxxxxxxxxxxxxxxxx
-UCxxxxxxxxxxxxxxxxxxxxxx  (ID direct)
+UCxxxxxxxxxxxxxxxxxxxxxx
 ```
+
+---
+
+## 🎫 Système de Tickets V1
+
+### Architecture
+
+Le système repose sur **3 couches** :
+
+1. **`TicketConfig`** — configuration par serveur (panels, options globales)
+2. **`Ticket`** — chaque ticket ouvert (état, claim, notation, transcript)
+3. **`ticketInteraction`** event — intercepte tous les boutons/modals en temps réel
+
+---
+
+### Panel admin `/ticketsetup`
+
+Interface complète avec 2 rangées de boutons :
+
+#### Rangée 1
+| Bouton | Action |
+|--------|--------|
+| 🟢/🔴 Activer/Désactiver | Toggle global du système |
+| ⚙️ Config globale | Salons logs/transcripts, DM, delays, notation |
+| ➕ Nouveau panel | Créer un panel custom (modal 5 champs) |
+| 📦 Panels prédéfinis | Ajouter en 1 clic des panels préconfigurés |
+
+#### Rangée 2
+| Bouton | Action |
+|--------|--------|
+| ✏️ Éditer panel | Modifier un panel existant (éditeur complet) |
+| 🗑️ Supprimer panel | Supprimer avec confirmation |
+| 📤 Publier le panel | Envoyer/mettre à jour l'embed dans un salon |
+| ♻️ Reset total | Réinitialiser toute la config |
+
+---
+
+### Config globale
+
+| Option | Description | Défaut |
+|--------|-------------|--------|
+| Salon de logs | Où loguer les actions tickets | Non défini |
+| Salon de transcripts | Où envoyer les fichiers .txt | Non défini |
+| DM à la fermeture | Notifier l'utilisateur en DM | ✅ Oui |
+| Transcript automatique | Générer le .txt à chaque fermeture | ✅ Oui |
+| Système de notation | Demander une note en DM après fermeture | ✅ Oui |
+| Délai de suppression | Secondes avant suppression du salon | 5s |
+| Titre du panel | Titre de l'embed principal | 🎫 Support & Tickets |
+
+---
+
+### Éditeur de panel
+
+Pour chaque panel, on peut configurer :
+
+| Section | Paramètres |
+|---------|-----------|
+| 📝 Texte & Style | Label, emoji, description, message bienvenue, couleur hex |
+| 👥 Staff & Pings | Rôles staff (accès), rôles pingés à l'ouverture |
+| 📂 Catégorie | Catégorie Discord où créer les salons tickets |
+| 📋 Modal | Activer/désactiver, titre, jusqu'à 5 champs personnalisés |
+| ⚙️ Paramètres | Max tickets par membre, format nom salon, style du bouton |
+
+---
+
+### Panels prédéfinis (5 inclus)
+
+| Panel | Emoji | Style | Modal |
+|-------|-------|-------|-------|
+| Support | 🛠️ | Primary (bleu) | ❌ |
+| Recrutement | 📋 | Success (vert) | ✅ 3 champs (âge, expérience, motivation) |
+| Signalement | 🚨 | Danger (rouge) | ✅ 2 champs (suspect, raison) |
+| Partenariat | 🤝 | Secondary | ✅ 3 champs (serveur, membres, offre) |
+| Commande / Achat | 🛒 | Success (vert) | ❌ |
+
+---
+
+### Fonctionnement d'un ticket
+
+```
+Utilisateur clique sur un bouton
+         ↓
+   [Si modal activé]
+   Formulaire s'ouvre → réponses sauvegardées en DB
+         ↓
+   Salon créé dans la catégorie configurée
+   Permissions set : @everyone ❌ | user ✅ | staff ✅
+         ↓
+   Embed de bienvenue + boutons de contrôle envoyés
+   Rôles pingés notifiés
+         ↓
+   Staff : Claim ⚡ / Ajouter membre ➕ / Transcript 📋
+         ↓
+   Fermeture 🔒 → modal raison → transcript .txt généré
+   DM envoyé à l'utilisateur
+   Salon supprimé après délai
+         ↓
+   DM de notation envoyé (⭐ 1-5) → log en DB
+```
+
+---
+
+### Variables disponibles
+
+| Variable | Disponibilité | Valeur |
+|----------|--------------|--------|
+| `{user}` | Message bienvenue | Mention Discord |
+| `{username}` | Message bienvenue, nom salon | Nom sans discriminant |
+| `{ticketNumber}` | Message bienvenue, nom salon | `0042` (paddé 4 chiffres) |
+| `{panel}` | Nom salon | ID du panel |
+
+---
+
+### Format nom de salon — exemples
+
+| Format | Résultat |
+|--------|----------|
+| `ticket-{username}` | `ticket-finyzyy` |
+| `support-{ticketNumber}` | `support-0042` |
+| `{panel}-{username}` | `recrutement-finyzyy` |
+| `🎫-{ticketNumber}` | `🎫-0042` |
 
 ---
 
@@ -269,27 +357,33 @@ UCxxxxxxxxxxxxxxxxxxxxxx  (ID direct)
 
 ```
 ~Finyzyy/
-├── config.json                    # Configuration principale
+├── config.json
 ├── package.json
 └── src/
-    ├── index.js                   # Point d'entrée
+    ├── index.js
     ├── commands/Community/
-    │   ├── rank.js                # /rank — carte de rang
-    │   ├── levelsetup.js          # /levelsetup — panel admin niveaux
-    │   ├── ytbnotif.js            # /ytbnotif — setup YouTube
-    │   ├── 211.js                 # /211 — info organisation
-    │   └── ping.js                # /ping
+    │   ├── ping.js
+    │   ├── 211.js
+    │   ├── rank.js                    # /rank
+    │   ├── levelsetup.js              # /levelsetup — panel admin niveaux
+    │   ├── ytbnotif.js                # /ytbnotif — notifications YouTube
+    │   └── ticketsetup.js             # /ticketsetup — panel admin tickets ✨ NEW
     ├── events/
-    │   └── xpHandler.js           # Gain XP sur messageCreate
+    │   ├── xpHandler.js               # Gain XP sur messageCreate
+    │   └── ticketInteraction.js       # Handler boutons/modals tickets ✨ NEW
     ├── functions/
-    │   ├── rankCard.js            # Générateur canvas carte de rang
-    │   ├── xpUtils.js             # Calculs XP/niveaux
-    │   ├── youtubeChecker.js      # Polling YouTube (5 min)
-    │   └── youtubeUtils.js        # Résolution chaîne, RSS, détection live
+    │   ├── rankCard.js
+    │   ├── xpUtils.js
+    │   ├── youtubeChecker.js
+    │   ├── youtubeUtils.js
+    │   ├── ticketUtils.js             # Embeds, permissions, transcript ✨ NEW
+    │   └── ticketHandler.js           # Logique open/close/claim/rate ✨ NEW
     └── schemas/
-        ├── Level.js               # XP & niveau par membre/serveur
-        ├── LevelConfig.js         # Config niveaux par serveur
-        └── YoutubeNotif.js        # Config notifications YouTube
+        ├── Level.js
+        ├── LevelConfig.js
+        ├── YoutubeNotif.js
+        ├── TicketConfig.js            # Config tickets par serveur ✨ NEW
+        └── Ticket.js                  # Instance de ticket ✨ NEW
 ```
 
 ---
