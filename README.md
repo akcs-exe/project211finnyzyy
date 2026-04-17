@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=200&section=header&text=Finnyzyy%20Bot&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Discord%20Bot%20%E2%80%94%20Complet%20%C2%B7%20Moderne%20%C2%B7%20Open%20Source&descAlignY=58&descSize=16&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=200&section=header&text=Finnyzyy%20Bot&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Discord%20Bot%20%E2%80%94%20Complet%20%C2%B7%20Moderne%20%C2%B7%20Software%20Owner&descAlignY=58&descSize=16&animation=twinkling" width="100%"/>
 
 <br/>
 
@@ -18,7 +18,7 @@
 
 <br/><br/>
 
-> *Bot Discord complet — Niveaux avancés · Bienvenue · Tickets V1 · Notifications YouTube · 211 Organisation*
+> *Bot Discord complet — Niveaux V1 · Bienvenue V1 · Tickets V1 · Notifications YouTube V1 · 211 Organisation*
 
 <br/>
 
@@ -94,8 +94,8 @@
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/votre-username/finyzyy-bot.git
-cd finyzyy-bot
+git clone https://github.com/votre-username/finnyzyy-bot.git
+cd finnyzyy-bot
 
 # 2. Installer les dépendances
 npm install
@@ -185,7 +185,7 @@ Activez ces intents sur le [Portail Développeur Discord](https://discord.com/de
 |----------|-------------|
 | `/ping` | Latence du bot |
 | `/211` | Informations sur la 211 Organisation |
-| `/finyzyy` | Présentation de Finyzyy |
+| `/finnyzyy` | Présentation de Finnyzyy |
 | `/clear <nombre>` | Supprimer des messages |
 
 ---
@@ -486,6 +486,6 @@ Ce bot est développé en soutien à la **211 Organisation**, association de pro
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=100&section=footer" width="100%"/>
 
-<sub>**Finyzyy Bot** — Conçu pour la communauté · Propulsé par <a href="https://discord.js.org">discord.js v14</a> & <a href="https://211organisation.com">211 Organisation</a></sub>
+<sub>**Finnyzyy Bot** — Conçu pour la communauté · Propulsé par <a href="https://discord.js.org">discord.js v14</a> & <a href="https://211organisation.com">211 Organisation</a></sub>
 
 </div>
