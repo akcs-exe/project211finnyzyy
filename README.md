@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=200&section=header&text=Finnyzyy%20Bot&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Discord%20Bot%20%E2%80%94%20Complet%20%C2%B7%20Moderne%20%C2%B7%20Software%20Owner&descAlignY=58&descSize=16&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=200&section=header&text=Finyzyy%20Bot&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Discord%20Bot%20%E2%80%94%20Complet%20%C2%B7%20Moderne%20%C2%B7%20Open%20Source&descAlignY=58&descSize=16&animation=twinkling" width="100%"/>
 
 <br/>
 
@@ -11,14 +11,15 @@
 
 <br/><br/>
 
-<img src="https://img.shields.io/badge/Commandes-11-5865F2?style=flat-square"/>
+<img src="https://img.shields.io/badge/Commandes-12-5865F2?style=flat-square"/>
 <img src="https://img.shields.io/badge/Thèmes_de_carte-19-9c27b0?style=flat-square"/>
 <img src="https://img.shields.io/badge/Fonds_welcome-8-00e676?style=flat-square"/>
 <img src="https://img.shields.io/badge/Panels_tickets-25_max-ff6d00?style=flat-square"/>
+<img src="https://img.shields.io/badge/Giveaways-Entrées_pondérées-f1c40f?style=flat-square"/>
 
 <br/><br/>
 
-> *Bot Discord complet — Niveaux V1 · Bienvenue V1 · Tickets V1 · Notifications YouTube V1 · 211 Organisation*
+> *Bot Discord complet — Niveaux avancés · Bienvenue · Tickets V1 · Notifications YouTube · 211 Organisation*
 
 <br/>
 
@@ -43,6 +44,7 @@
 **🎮 Fonctionnalités**
 - [Système de niveaux](#-système-de-niveaux)
 - [Bienvenue custom](#-système-de-bienvenue)
+- [Giveaways](#-système-de-giveaways)
 - [Tickets V1](#-système-de-tickets-v1)
 - [Notifications YouTube](#-notifications-youtube)
 
@@ -65,22 +67,27 @@
 
 <table>
 <tr>
-<td align="center" width="25%">
+<td align="center" width="20%">
 <img src="https://img.shields.io/badge/-🏆-1e1e2e?style=for-the-badge" /><br/>
 <b>Niveaux</b><br/>
 <sub>19 thèmes canvas · rôles auto · panel admin complet</sub>
 </td>
-<td align="center" width="25%">
+<td align="center" width="20%">
 <img src="https://img.shields.io/badge/-👋-1e1e2e?style=for-the-badge" /><br/>
 <b>Bienvenue</b><br/>
 <sub>8 fonds + URL custom · couleurs · auto-rôle</sub>
 </td>
-<td align="center" width="25%">
+<td align="center" width="20%">
+<img src="https://img.shields.io/badge/-🎉-1e1e2e?style=for-the-badge" /><br/>
+<b>Giveaways</b><br/>
+<sub>entrées pondérées · conditions · reroll · live</sub>
+</td>
+<td align="center" width="20%">
 <img src="https://img.shields.io/badge/-🎫-1e1e2e?style=for-the-badge" /><br/>
 <b>Tickets V1</b><br/>
 <sub>25 panels · modals · transcripts · notations</sub>
 </td>
-<td align="center" width="25%">
+<td align="center" width="20%">
 <img src="https://img.shields.io/badge/-📺-1e1e2e?style=for-the-badge" /><br/>
 <b>YouTube</b><br/>
 <sub>10 chaînes · live/vidéo · sans API key</sub>
@@ -94,8 +101,8 @@
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/votre-username/finnyzyy-bot.git
-cd finnyzyy-bot
+git clone https://github.com/votre-username/finyzyy-bot.git
+cd finyzyy-bot
 
 # 2. Installer les dépendances
 npm install
@@ -165,6 +172,17 @@ Activez ces intents sur le [Portail Développeur Discord](https://discord.com/de
 |----------|-------------|:----------:|
 | `/welcomesetup` | Configure le système de bienvenue | `Gérer le serveur` |
 
+### 🎉 Giveaways
+
+| Commande | Description | Permission |
+|----------|-------------|:----------:|
+| `/giveaway start` | Lancer un giveaway | `Gérer le serveur` |
+| `/giveaway end <id>` | Terminer un giveaway immédiatement | `Gérer le serveur` |
+| `/giveaway reroll <id>` | Re-tirer de nouveaux gagnants | `Gérer le serveur` |
+| `/giveaway cancel <id>` | Annuler un giveaway en cours | `Gérer le serveur` |
+| `/giveaway list` | Lister les giveaways actifs | `Gérer le serveur` |
+| `/giveaway info <id>` | Détails complets sur un giveaway | `Gérer le serveur` |
+
 ### 🎫 Tickets
 
 | Commande | Description | Permission |
@@ -185,7 +203,7 @@ Activez ces intents sur le [Portail Développeur Discord](https://discord.com/de
 |----------|-------------|
 | `/ping` | Latence du bot |
 | `/211` | Informations sur la 211 Organisation |
-| `/finnyzyy` | Présentation de Finnyzyy |
+| `/finyzyy` | Présentation de Finyzyy |
 | `/clear <nombre>` | Supprimer des messages |
 
 ---
@@ -288,6 +306,68 @@ Card de bienvenue **générée en canvas** à chaque arrivée. Entièrement conf
 | `{username}` | Nom du membre |
 | `{server}` | Nom du serveur |
 | `{count}` | Numéro du membre |
+
+---
+
+## 🎉 Système de Giveaways
+
+Giveaways **entièrement gérés via Discord** — embeds live, boutons interactifs, barre de progression, tirage pondéré.
+
+### Lancer un giveaway
+
+```
+/giveaway start
+  prize        →  Ce qu'on fait gagner            (obligatoire)
+  duree        →  10s · 30m · 2h · 1d · 7d       (obligatoire)
+  gagnants     →  Nombre de gagnants (1-20)       (défaut: 1)
+  description  →  Texte descriptif                (optionnel)
+  emoji        →  Emoji de participation          (défaut: 🎉)
+  couleur      →  Couleur hex de l'embed          (défaut: #5865F2)
+  role_requis  →  Rôle obligatoire pour entrer    (optionnel)
+  role_interdit→  Rôle qui ne peut pas participer (optionnel)
+  niveau_min   →  Niveau XP minimum requis        (optionnel)
+  bonus_role   →  Rôle avec entrées en plus       (optionnel)
+  bonus_entrees→  Nb d'entrées bonus (1-10)       (défaut: 2)
+```
+
+### Fonctionnalités
+
+```
+🎉 Participer     →  Bouton cliquable dans l'embed
+🚪 Quitter        →  Se retirer d'un giveaway à tout moment
+📋 Infos          →  Voir ses propres entrées, temps restant, participants
+⏱️  Barre de prog  →  Mise à jour en temps réel (toutes les 60s)
+🏁 Fin auto       →  Tirage automatique à l'expiration (vérif. toutes les 15s)
+🔄 Reroll         →  Re-tirer de nouveaux gagnants après la fin
+🚫 Cancel         →  Annuler un giveaway proprement (embed mis à jour)
+```
+
+### Entrées pondérées
+
+Certains rôles peuvent avoir **plus de chances de gagner** grâce aux entrées bonus. Exemple :
+
+| Rôle | Entrées |
+|------|:-------:|
+| Membre normal | 1 |
+| `@Booster` avec `bonus_entrees: 3` | 4 |
+| Cumul de plusieurs rôles bonus | Additionné |
+
+### Conditions d'accès
+
+| Option | Description |
+|--------|-------------|
+| `role_requis` | Seuls les membres avec ce rôle peuvent participer |
+| `role_interdit` | Les membres avec ce rôle sont exclus |
+| `niveau_min` | Niveau XP minimum requis (compatible avec le système de niveaux) |
+
+### Architecture
+
+```
+Giveaway.js           ──  Schema MongoDB (participants, bonus, conditions…)
+giveawayUtils.js      ──  Embeds · tirage pondéré · formatage durée
+giveawayInteraction.js──  Event interactionCreate (boutons) + timer auto-end
+giveaway.js           ──  Commande /giveaway (start · end · reroll · cancel · list · info)
+```
 
 ---
 
@@ -425,17 +505,20 @@ UCxxxxxxxxxxxxxxxxxxxxxx
     │   ├── ⚙️  levelsetup.js           # /levelsetup — panel admin niveaux
     │   ├── 🎚️  setlevel.js             # /setlevel — modifier le niveau d'un membre
     │   ├── 👋 welcomesetup.js         # /welcomesetup — panel bienvenue
+    │   ├── 🎉 giveaway.js             # /giveaway — start/end/reroll/cancel/list/info
     │   ├── 🎫 ticketsetup.js          # /ticketsetup — panel admin tickets
     │   └── 📺 ytbnotif.js             # /ytbnotif — notifications YouTube
     │
     ├── 📂 events/
     │   ├── ⚡ xpHandler.js            # Gain XP sur messageCreate
     │   ├── 👋 guildMemberAdd.js       # Envoi card de bienvenue
+    │   ├── 🎉 giveawayInteraction.js  # Handler boutons giveaway + timer auto-end
     │   └── 🎫 ticketInteraction.js    # Handler boutons/modals tickets
     │
     ├── 📂 functions/
     │   ├── 🎨 rankCard.js             # Génération canvas carte de rang
     │   ├── 🖼️  welcomeCard.js          # Génération canvas carte de bienvenue
+    │   ├── 🎉 giveawayUtils.js        # Embeds, tirage pondéré, formatage
     │   ├── 🧮 xpUtils.js              # Calculs XP / niveaux
     │   ├── 🎫 ticketHandler.js        # Logique open/close/claim/rate
     │   ├── 🛠️  ticketUtils.js          # Embeds, permissions, transcript
@@ -446,6 +529,7 @@ UCxxxxxxxxxxxxxxxxxxxxxx
         ├── 📊 Level.js                # XP & niveau par membre
         ├── ⚙️  LevelConfig.js          # Config niveaux par serveur
         ├── 👋 WelcomeConfig.js        # Config bienvenue par serveur
+        ├── 🎉 Giveaway.js             # Instance de giveaway
         ├── 🎫 Ticket.js               # Instance de ticket
         ├── 🗂️  TicketConfig.js         # Config tickets par serveur
         └── 📺 YoutubeNotif.js         # Config YouTube par serveur
@@ -486,6 +570,6 @@ Ce bot est développé en soutien à la **211 Organisation**, association de pro
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=5865F2,D62828&height=100&section=footer" width="100%"/>
 
-<sub>**Finnyzyy Bot** — Conçu pour la communauté · Propulsé par <a href="https://discord.js.org">discord.js v14</a> & <a href="https://211organisation.com">211 Organisation</a></sub>
+<sub>**Finyzyy Bot** — Conçu pour la communauté · Propulsé par <a href="https://discord.js.org">discord.js v14</a> & <a href="https://211organisation.com">211 Organisation</a></sub>
 
 </div>
